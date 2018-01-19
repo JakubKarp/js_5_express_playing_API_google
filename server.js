@@ -40,12 +40,13 @@ app.use(passport.session());
 //app routes
 app.get('/', function(req, res){
     res.render('index', { 
-		url: '/auth/google', 
+		url: '/auth/google',
 		user: req.user });
 });
 
 app.get('/logged', function(req, res){
-    res.render('logged', { user: googleProfile });
+	res.render('logged', {user_name: googleProfile.displayName });
+	console.log('Zalogowałeś się na konto: ' + googleProfile.displayName)
 });
 
 //Passport routes
@@ -53,6 +54,7 @@ app.get('/auth/google',
 passport.authenticate('google', {
 scope : ['profile', 'email']
 }));
+
 app.get('/auth/google/callback',
     passport.authenticate('google', {
         successRedirect : '/logged',
